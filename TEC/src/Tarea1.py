@@ -7,6 +7,7 @@ import math
 import time
 import sys
 import uselect
+import cmath
 # ------------------------------------------------------------------------------
 SOURCE = 'Procesamiento de Señales'
 # ------------------------------------------------------------------------------
@@ -48,7 +49,7 @@ def parse_command(cmd):
 #   2. Genera la siguiente muestra de la señal y la envía a la salida (PWM).
 #   3. Lee el valor de la entrada analógica (ADC).
 # ------------------------------------------------------------------------------
-def FFT(buffer):
+def FFT(sign):
     #N = 5
     #buffer = [0 for n in range(N)] => esto debería crear el buffer = [0,0,0,0,0,0...hasta N]
     for n in range (N):
@@ -63,10 +64,10 @@ def FFT(buffer):
     for i in range(2*N):
         if i % 2 == 0: #par
             n = int(i/2)
-            fn[n] = buffer[i]
+            fn[n] = sign[i]
         else: #impar
             n = int((i-1)/2)
-            gn[n] = buffer[i]
+            gn[n] = sign[i]
             
     #Se calcula la DFT de las funciones par e impar: f(n) y g(n) F(k) y G(k).
     #El cálculo lo hacemos a través de la matriz de coeficientes Wkn
@@ -82,16 +83,16 @@ def FFT(buffer):
     #Hay que tener en cuenta que la fórmula cambia, dependiendo en que rango nos encotramos
     #Para 0<=k<=N/2, la fórmula es: X[k] = F[k] + W*G[k]
     #Para N/2<=k<=N, la fórmula es: X[k] = F[k] - W*G[k]
-    #Primero calculamos la matriz W:
+    #Primero calculamos la matriz W. Para ello, el valor de n = 1:
+    for k in range(N):
+        Wk[k] = Wkn[1][k]*cmath.exp(0.5)
+             
+    for k in range(N):
+        Xk[k] = Fk[k] + Wk[k]*gk[k]
+    for k in range(N)
+        Xk[k+5] = Fk[k] - Wk[k]*gk[k]
     
-              
-
-
-
-
-
-
-
+    return(Xk)
 
 def waitNextPeriod(previous):
     lapsed = time.ticks_us() - previous
@@ -114,17 +115,14 @@ def loop():
               t = waitNextPeriod(tLast)
               u = signal((t-t0)*1e-6)
               y = readInput()
-              
-              
-              buffer[i] = y
-              yjw = FFT(buffer)
+              sign[i] = y
+              yjw = FFT(sign)
+              #N=5
               for j in range(2*N):
                   ywn = abs(yjw[j])
                   print(f'{u} {y}')
-                  
-                  
-                  
               writeOutput(u)
+              #writeOutput(int(u))
             except ValueError:
               pass
             data.append([(t-t0)*1e-6, u, y])
