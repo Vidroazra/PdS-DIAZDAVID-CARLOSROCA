@@ -83,9 +83,17 @@ BUFFER_SIZE = 10 # Muestras en el buffer
 
 def signal(t):
   # Pon aquí el código necesario para generar tu señal.
+  return math.sin(2*math.pi*1000*t)
   return 1
 
 # ------------------------------------------------------------------------------
 # Comienza la ejecución
 # ------------------------------------------------------------------------------
 loop()
+while True:
+    try:
+        y = readInput()
+        except
+            ValueError
+        pass
+    
