@@ -128,9 +128,8 @@ def FFT(sign):
            
     Xk = [0 for n in range(2*N)] 
     for k in range(N):
-        Xk[k] = fk[k] + Wk[k]*gk[k]
-    for k in range(N):
-        Xk[k+5] = fk[k] - Wk[k]*gk[k]
+        Xk[k] = fk[k] + Wk[k]*gk[k] #Para 0<=k<=N/2
+        Xk[k+5] = fk[k] - Wk[k]*gk[k] #Para N/2<=k<=N
     
     return(Xk)            
 # ------------------------------------------------------------------------------
