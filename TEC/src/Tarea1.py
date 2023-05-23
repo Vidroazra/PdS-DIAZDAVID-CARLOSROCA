@@ -70,12 +70,6 @@ def loop():
               t = waitNextPeriod(tLast)
               u = signal((t-t0)*1e-6)
               y = readInput()
-              sign[i] = y
-              yjw = FFT(sign) #FFT de la señal 
-              #N=5
-              for j in range(2*N):
-                  ywn = abs(yjw[j]) #valor absoluto de la FFT de las muestras
-                  
               writeOutput(u)
             except ValueError:
               pass
