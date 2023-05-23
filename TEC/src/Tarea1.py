@@ -75,7 +75,7 @@ def loop():
               #N=5
               for j in range(2*N):
                   ywn = abs(yjw[j]) #valor absoluto de la FFT de las muestras
-                  print(f'{u} {y} {ywn}')
+                  
               writeOutput(u)
             except ValueError:
               pass
@@ -84,54 +84,8 @@ def loop():
         if spoll.poll(0):
             cmd = str(sys.stdin.readline())
             parse_command(cmd)
-            
-def FFT(sign):
-    #N = 5
-    #Para nosotros, el valor de N = BUFFER_SIZE / 2
-    #BUFFER_SIZE, se trata de las muetras que podemos tener.
-    #Nos dimos cuenta que es necesario inicializar las matrices a cero, para poder ejecutar el programa.
-    #Creamos la matriz de coeficientes Wkn:
-    Wkn = [[0 for n in range(N)] for k in range(N)]
-    for n in range (N):
-        for k in range (N):
-            Wkn[n][k] = cmath.exp(-1j*2*cmath.pi*k*n/N)
-            
-            
-    #Genero las funciones par e impar x(2n) y x(2n+1), respectivamente:
-    fn = [0 for n in range(N)] #create a list of zeros 
-    gn = [0 for n in range(N)] 
-    for i in range(2*N):
-        if i % 2 == 0: #par
-            n = int(i/2)
-            fn[n] = sign[i]
-        else: #impar
-            n = int((i-1)/2)
-            gn[n] = sign[i]
-            
-    #Se calcula la DFT de las funciones par e impar: f(n) y g(n) F(k) y G(k).
-    #El cálculo lo hacemos a través de la matriz de coeficientes Wkn
-    fk = [0 for n in range(N)]
-    gk = [0 for n in range(N)]
-    for k in range(N):
-        for n in range(N):
-            fk[k] = fn[k]*Wkn[n][k] + fk[k]
-            gk[k] = gn[k]*Wkn[n][k] + gk[k]
-
-    #Finalmente, calculamos la trans. Fourier de la señal completa X[k] al sumar F[k]+G[k]
-    #Hay que tener en cuenta que la fórmula cambia, dependiendo en que rango nos encotramos
-    #Para 0<=k<=N/2, la fórmula es: X[k] = F[k] + W*G[k]
-    #Para N/2<=k<=N, la fórmula es: X[k] = F[k] - W*G[k]
-    #Primero calculamos la matriz W. Para ello, el valor de n = 1:
-    Wk = [0 for n in range(N)]
-    for k in range(N):
-        Wk[k] = Wkn[1][k]*cmath.exp(0.5)
-           
-    Xk = [0 for n in range(2*N)] 
-    for k in range(N):
-        Xk[k] = fk[k] + Wk[k]*gk[k] #Para 0<=k<=N/2
-        Xk[k+5] = fk[k] - Wk[k]*gk[k] #Para N/2<=k<=N
-    
-    return(Xk)            
+        print(f'{u} {y} {ywn}')
+          
 # ------------------------------------------------------------------------------
 # INSTRUCCIONES
 # ------------------------------------------------------------------------------
