@@ -85,6 +85,8 @@ def loop():
 # ------------------------------------------------------------------------------
 PERIOD_US = 1000 # Periodo de muestreo en microsegundos
 BUFFER_SIZE = 10 # Muestras en el buffer
+sign = [0 for i in range(BUFFER_SIZE)]
+N = 5
 
 def signal(t):
   # Pon aquí el código necesario para generar tu señal.
